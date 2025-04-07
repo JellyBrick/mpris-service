@@ -1,4 +1,4 @@
-declare module "mpris-service";
+declare module "@jellybrick/mpris-service";
 
 // The player creation options
 // @see https://specifications.freedesktop.org/mpris-spec/latest/Media_Player.html
