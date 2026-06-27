@@ -2,14 +2,28 @@
   "name": "@jellybrick/mpris-service",
   "version": "2.1.5",
   "description": "Node.js implementation for the MPRIS D-Bus Interface Specification to create a mediaplayer service",
-  "main": "dist/index.js",
-  "types": "src/index.d.ts",
-  "scripts": {
-    "test": "gulp && dbus-run-session -- jest",
-    "coverage": "gulp && dbus-run-session -- jest --coverage",
-    "build": "gulp",
-    "doc": "jsdoc --verbose -c jsdoc.conf --readme README.md --package package.json src/index.js -d doc",
-    "prepublish": "gulp"
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=12.20.0"
   },
   "repository": {
     "type": "git",
@@ -27,28 +41,31 @@
     "url": "https://github.com/JellyBrick/mpris-service/issues"
   },
   "homepage": "https://github.com/JellyBrick/mpris-service",
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint --type-aware --deny-warnings src test",
+    "format": "oxfmt --write src test *.config.ts",
+    "format:check": "oxfmt --check src test *.config.ts",
+    "test": "vitest run",
+    "test:integration": "MPRIS_INTEGRATION=1 dbus-run-session -- vitest run",
+    "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run build && pnpm run test"
+  },
   "dependencies": {
-    "@jellybrick/dbus-next": "^0.10.3",
-    "deep-equal": "^2.2.3",
-    "source-map-support": "^0.5.21"
+    "@jellybrick/dbus-next": "^0.11.1",
+    "fast-equals": "^6.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/plugin-proposal-decorators": "^7.25.9",
-    "@babel/plugin-transform-private-methods": "^7.25.9",
-    "@babel/preset-env": "^7.26.0",
-    "gulp": "^5.0.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-cli": "^3.0.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "jest": "^29.7.0",
-    "jsbi": "^4.3.0",
-    "jsdoc": "^4.0.4"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "engine": {
-    "node": ">=18.x.0"
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@swc/core": "^1.15.41",
+    "@types/node": "^25.9.3",
+    "eslint-plugin-perfectionist": "^5.9.1",
+    "oxfmt": "^0.55.0",
+    "oxlint": "^1.70.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "tsdown": "^0.22.3",
+    "typescript": "^6.0.3",
+    "unplugin-swc": "^1.5.9",
+    "vitest": "^4.1.9"
   }
 }

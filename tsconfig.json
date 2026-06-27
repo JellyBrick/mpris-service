@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "lib": ["ES2019", "ES2020.BigInt"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "paths": { "@/*": ["./src/*"] },
+    "types": ["node"],
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "moduleDetection": "force",
+    "useDefineForClassFields": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src", "test"],
+  "exclude": ["dist", "node_modules", "examples"]
+}

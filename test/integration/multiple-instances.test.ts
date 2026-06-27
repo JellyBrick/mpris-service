@@ -1,36 +1,39 @@
-jest.setTimeout(1e4);
-const dbus = require('dbus-next');
-const Player = require('../dist');
+import { sessionBus } from '@jellybrick/dbus-next';
+import { afterAll, expect, test } from 'vitest';
 
-let initErrors = [];
-let playerName = 'multiple_instances';
+import { Player } from '@/player';
 
-function errorHandler(err) {
-  console.log(err.stack);
+import { call } from '../util';
+
+const initErrors: Error[] = [];
+const playerName = 'multiple_instances';
+
+const errorHandler = (err: Error): void => {
+  console.log(err.stack ?? '');
   initErrors.push(err);
-}
+};
 
-let player1 = new Player({
+const player1 = new Player({
   name: playerName,
   identity: 'Node.js media player',
   supportedUriSchemes: ['file'],
   supportedMimeTypes: ['audio/mpeg', 'application/ogg'],
-  supportedInterfaces: ['player']
+  supportedInterfaces: ['player'],
 });
 
 player1.on('error', errorHandler);
 
-let player2 = new Player({
+const player2 = new Player({
   name: playerName,
   identity: 'Node.js media player',
   supportedUriSchemes: ['file'],
   supportedMimeTypes: ['audio/mpeg', 'application/ogg'],
-  supportedInterfaces: ['player']
+  supportedInterfaces: ['player'],
 });
 
 player2.on('error', errorHandler);
 
-let bus = dbus.sessionBus();
+const bus = sessionBus();
 
 afterAll(() => {
   player1._bus.disconnect();
@@ -39,13 +42,13 @@ afterAll(() => {
 });
 
 test('creating two players with the same name on the same bus should create the second one as an instance', async () => {
-  let dbusObj = await bus.getProxyObject('org.freedesktop.DBus', '/org/freedesktop/DBus');
-  let dbusIface = dbusObj.getInterface('org.freedesktop.DBus');
-  let names = await dbusIface.ListNames();
+  const dbusObj = await bus.getProxyObject('org.freedesktop.DBus', '/org/freedesktop/DBus');
+  const dbusIface = dbusObj.getInterface('org.freedesktop.DBus');
+  const names = await call(dbusIface, 'ListNames');
 
   expect(initErrors).toHaveLength(0);
 
-  let expectedIfaces = [
+  const expectedIfaces = [
     `org.mpris.MediaPlayer2.${playerName}`,
     `org.mpris.MediaPlayer2.${playerName}.instance${process.pid}`,
   ];
