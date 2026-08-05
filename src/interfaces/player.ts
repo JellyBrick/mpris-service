@@ -117,7 +117,7 @@ export class PlayerInterface extends MprisInterface {
   get LoopStatus(): string {
     if (!isLoopStatusValid(this._LoopStatus)) {
       const err = 'github.mpris_service.InvalidLoopStatusError';
-      const message = `The player has set an invalid loop status: ${this._LoopStatus}`;
+      const message = 'The player has set an invalid loop status: ' + this._LoopStatus;
       throw new DBusError(err, message);
     }
 
@@ -136,7 +136,7 @@ export class PlayerInterface extends MprisInterface {
   get PlaybackStatus(): string {
     if (!isPlaybackStatusValid(this._PlaybackStatus)) {
       const err = 'github.mpris_service.InvalidPlaybackStatusError';
-      const message = `The player has set an invalid playback status: ${this._PlaybackStatus}`;
+      const message = 'The player has set an invalid playback status: ' + this._PlaybackStatus;
       throw new DBusError(err, message);
     }
 
