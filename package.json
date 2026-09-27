@@ -52,20 +52,20 @@
     "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run build && pnpm run test"
   },
   "dependencies": {
-    "@jellybrick/dbus-next": "^0.11.3",
-    "fast-equals": "^6.0.2"
+    "@jellybrick/dbus-next": "^0.11.4",
+    "fast-equals": "^6.0.4"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@swc/core": "^1.15.47",
-    "@types/node": "^26.1.2",
-    "eslint-plugin-perfectionist": "^5.10.1",
+    "@swc/core": "^1.16.2",
+    "@types/node": "^26.6.3",
+    "eslint-plugin-perfectionist": "^5.12.1",
     "oxfmt": "^0.62.0",
-    "oxlint": "^1.77.0",
-    "oxlint-tsgolint": "^7.0.2001",
+    "oxlint": "^1.85.0",
+    "oxlint-tsgolint": "^7.0.2003",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
-    "unplugin-swc": "^1.5.10",
-    "vitest": "^4.1.10"
+    "unplugin-swc": "^1.6.0",
+    "vitest": "^4.1.11"
   }
 }
